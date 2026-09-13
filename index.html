@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071f30">
-<title>NEPTUNE v4 — Seabed & Sunken Works</title>
+<title>NEPTUNE v5 — Reinforced Patrols</title>
 <style>
 :root{color-scheme:dark;--ink:#071f30;--paper:#f5efdc;--teal:#51c6ce;--orange:#ff8058}*{box-sizing:border-box}body{margin:0;background:var(--ink);color:var(--paper);font:14px system-ui,-apple-system,sans-serif;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}button{font:inherit;cursor:pointer;color:inherit}header,footer{width:min(1280px,100%);display:flex;align-items:center;justify-content:space-between;gap:16px}header{margin-bottom:18px}.brand{display:flex;align-items:center;gap:13px;letter-spacing:6px;font-size:21px;font-weight:500}.brand svg{width:40px;stroke:var(--teal);fill:none;stroke-width:2}.edition{font:10px ui-monospace,monospace;letter-spacing:2px;color:#8aaeb8;margin-top:5px}.tools{display:flex;gap:8px}.tools button{background:transparent;border:1px solid #284a5b;border-radius:6px;padding:9px 12px;font-size:12px;color:#adc4cb}.tools button:hover{border-color:var(--teal);color:var(--paper)}button:focus-visible{outline:2px solid var(--teal);outline-offset:4px}#surface{width:min(1280px,100%);aspect-ratio:16/9;position:relative;overflow:hidden;border:1px solid #315669;border-radius:9px;background:#123e52;box-shadow:0 24px 80px #0003}canvas{width:100%;height:100%;display:block;touch-action:none}#overlay{position:absolute;inset:0;background:#071f30c9;display:flex;align-items:center;padding:7%;gap:5%}#overlay.hidden{display:none}.intro{max-width:650px}.eyebrow{color:var(--teal);font:11px ui-monospace,monospace;letter-spacing:3px;margin-bottom:20px}h1{font-weight:450;letter-spacing:10px;font-size:clamp(32px,6.2vw,84px);line-height:1.05;margin:0 0 20px}#description{font-size:clamp(13px,1.4vw,18px);line-height:1.7;color:#b9d0d4;max-width:480px;margin:0 0 24px}.primary{border:0;background:var(--orange);color:var(--ink);padding:14px 27px;border-radius:4px;font-weight:700;letter-spacing:2px;font-size:12px}.primary:hover{background:#ffa27d}.hint{font:11px ui-monospace,monospace;color:#8babb6;margin-top:16px;line-height:1.7}.briefing{border-left:1px solid #396070;padding-left:28px;max-width:270px}.briefing p{color:#b9d0d4;font-size:13px;line-height:1.7}.briefing strong{color:var(--paper);font-weight:500}.briefing small{display:block;color:var(--teal);font:10px ui-monospace,monospace;letter-spacing:2px;margin-bottom:6px}footer{margin-top:17px;color:#7899a6;font:11px ui-monospace,monospace;line-height:1.8}kbd{color:#bad0d4;font:inherit}#touch{position:absolute;bottom:12%;left:0;right:0;display:none;justify-content:space-between;align-items:end;padding:0 4%;pointer-events:none}#stick{width:108px;height:108px;border-radius:50%;border:1px solid #bce0dd55;background:#071f3055;position:relative;touch-action:none;pointer-events:auto}#knob{position:absolute;width:40px;height:40px;left:33px;top:33px;border-radius:50%;background:#d6e9df55;pointer-events:none}.touch-actions{display:flex;gap:12px;align-items:end}.touch-actions button{width:70px;height:70px;border-radius:50%;border:1px solid #ffc09b88;background:#ff805849;font-size:11px;letter-spacing:1px;pointer-events:auto;touch-action:none}.touch-actions #brake{width:53px;height:53px;background:#071f3080;border-color:#bce0dd55;font-size:9px}#surface:fullscreen{width:100vw;height:100vh;aspect-ratio:auto;border:0;border-radius:0;display:grid;place-items:center;background:var(--ink)}#surface:fullscreen canvas{width:min(100vw,177.777vh);height:min(100vh,56.25vw)}@media(pointer:coarse){#touch.active{display:flex}.desktop-help{display:none}}@media(max-width:700px){body{padding:12px 8px}header{margin-bottom:12px}.brand{font-size:16px;letter-spacing:4px}.edition{font-size:8px;letter-spacing:1px}.tools button{padding:8px;font-size:10px}.briefing{display:none}#overlay{padding:5%}h1{margin-bottom:10px}.eyebrow{margin-bottom:10px;font-size:9px}#description{margin-bottom:12px;line-height:1.4}.hint{font-size:9px;margin-top:9px}.primary{padding:11px 20px}footer{font-size:9px}#stick{width:80px;height:80px}#knob{left:19px;top:19px}.touch-actions button{width:56px;height:56px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
 @media(max-width:600px){#overlay{padding:4%}#overlay h1{font-size:27px;letter-spacing:5px;line-height:1;margin:0 0 8px}#overlay #description{font-size:10px;line-height:1.25;margin-bottom:8px;max-width:320px}.eyebrow{font-size:7px;letter-spacing:1px;margin-bottom:6px}.primary{font-size:9px;padding:8px 14px}.hint{font-size:8px;line-height:1.3;margin-top:6px}.touch-actions{gap:6px}.touch-actions button{width:44px;height:44px;font-size:9px}.touch-actions #brake{width:42px;height:42px}#stick{width:64px;height:64px}#knob{width:28px;height:28px;left:17px;top:17px}footer{flex-wrap:wrap;gap:5px}}
 </style>
 </head>
 <body>
-<header><div><div class="brand"><svg viewBox="0 0 42 30" aria-hidden="true"><path d="M1 6Q6 0 11 6T21 6T31 6T41 6M1 15Q6 9 11 15T21 15T31 15T41 15M1 24Q6 18 11 24T21 24T31 24T41 24"/></svg>NEPTUNE</div><div class="edition">V4 · EXTENDED EXPEDITION</div></div><div class="tools"><button id="pause" aria-label="Pause game">Pause</button><button id="sound" aria-pressed="false">Sound off</button><button id="full" aria-label="Toggle fullscreen">Fullscreen</button></div></header>
+<header><div><div class="brand"><svg viewBox="0 0 42 30" aria-hidden="true"><path d="M1 6Q6 0 11 6T21 6T31 6T41 6M1 15Q6 9 11 15T21 15T31 15T41 15M1 24Q6 18 11 24T21 24T31 24T41 24"/></svg>NEPTUNE</div><div class="edition">V5 · REINFORCED PATROLS</div></div><div class="tools"><button id="pause" aria-label="Pause game">Pause</button><button id="sound" aria-pressed="false">Sound off</button><button id="full" aria-label="Toggle fullscreen">Fullscreen</button></div></header>
 <main id="surface">
 <canvas id="game" width="1280" height="720" aria-label="Neptune submarine arcade game. Steer with WASD or arrow keys. Space fires a laser; X or Z drops a bomb; Shift brakes. Navigate seabed ridges, evade darts in the cave, and land on the fuel pad. Level two explores the Sunken Works."></canvas>
 <div id="overlay"><div class="intro"><div class="eyebrow" id="eyebrow">FIVE SHIPS. TWENTY BOMBS. ONE DEEP DIVE.</div><h1 id="title">INTO THE<br>DEEP.</h1><p id="description">Climb the seabed ridges. Break through the saucers. Survive the dart cave and land to refuel. Then enter the Sunken Works.</p><button class="primary" id="start">LAUNCH NEPTUNE →</button><div class="hint" id="hint">WASD / ARROWS steer · SPACE laser · X / Z bomb<br>SHIFT brakes · Land slowly on illuminated fuel pads.</div></div><aside class="briefing"><p><small>01 / THE SEABED</small><strong>Original enemies. New contours.</strong><br>Vertical drones, bomb-only skulls, and staggered saucers. None fire.</p><p><small>02 / THE CAVE</small><strong>Hold position. Dodge the darts.</strong><br>Scrolling stops and weapons lock. When the wave passes, land to refuel.</p><p><small>03 / THE SUNKEN WORKS</small><strong>A new second level.</strong><br>Aimed turrets, burst-fire patrols, two routes, and a final defense chamber.</p></aside></div>
@@ -66,13 +66,21 @@ function buildLevel(n){
  const add=(type,x,base,extra={})=>enemies.push({type,x,home:x,y:base,base,phase:random()*6.28,age:random()*5,hp:1,points:({small:20,skull:50,saucer:80,turret:100,patrol:120})[type],cool:1.7+random(),dead:false,...extra});
  const ledge=(x)=>{const i=Math.floor(x/STEP),y=(terrain[i]+terrain[i+1])/2;terrain[i]=terrain[i+1]=y;return i*STEP+STEP/2};
  if(n===0){
-  for(const [i,x] of [1560,1910,2200,2570,2960,3300,3520,3890,4220,4570,4880,5210,5480].entries())add('small',x,0,{grounded:i%3!==0,age:i%3===0?2:0});
+  for (let i = 0; i < 26; i++) {
+    const x = 1460 + i * 160;
+    add('small', x, 0, {
+      grounded: i % 3 !== 0,
+      age: (i * 1.13) % 7
+    });
+  }
   for(const x of [2050,2510,3100,3650,4210,4660,5070,5430]){const sx=ledge(x);add('skull',sx,ground(sx)-24)}
-  for(let i=0;i<16;i++)add('saucer',6440+i*150,0,{age:i*.62});
+  for (let i = 0; i < 28; i++) {
+    add('saucer', 6440 + i * 90, 0, { age: i * .62 });
+  }
  }else{
   for(const x of [1700,2250,2980,3550,4220,4750,5380]){const tx=ledge(x);add('turret',tx,ground(tx)-24,{hp:2})}
-  for(const x of [2340,3200,4100,4900])add('small',x,0,{grounded:true});
-  for(let i=0;i<10;i++)add('patrol',6300+i*245,210+(i%3)*70,{hp:2});
+  for(const x of [2180,2500,2900,3320,3740,4140,4580,5020])add('small',x,0,{grounded:true});
+  for(let i=0;i<14;i++)add('patrol',6300+i*175,210+(i%3)*70,{hp:2});
   add('turret',10060,266,{hp:2});add('turret',10700,266,{hp:2});
   for(const x of [9780,10260,10620]){const sx=ledge(x);add('skull',sx,ground(sx)-24)}
  }
@@ -185,7 +193,18 @@ function update(dt){
   if(sector===0){
    waveClock+=dt;
    // Timed gaps and fixed lanes: darts fly straight; they never target the ship.
-   if(dartsSpawned<48&&waveClock>=dartsSpawned*.82+.8){const i=dartsSpawned++;hazards.push({x:cam+W+45,y:130+((i*5+Math.floor(i/6))%9)*54,type:'dart',r:9,vx:-245-(i%3)*20})}
+   if (dartsSpawned < 48 && waveClock >= dartsSpawned * .82 + .8) {
+    const i = dartsSpawned++;
+    // Mix slow obstacles with fast interceptors; each keeps its launch speed.
+    const speeds = [180, 420, 250, 540, 210, 350, 480, 290];
+    hazards.push({
+      x: cam + W + 45,
+      y: 130 + ((i * 5 + Math.floor(i / 6)) % 9) * 54,
+      type: 'dart',
+      r: 9,
+      vx: -speeds[i % speeds.length]
+    });
+   }
    if(dartsSpawned===48&&hazards.length===0)enterPhase('dock');
   }else if(chamberSpawned&&enemies.every(e=>e.dead)){if(chamberWave<2)spawnDefenseWave();else enterPhase('dock')}
  }
