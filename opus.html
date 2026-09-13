@@ -147,30 +147,30 @@ const sfx = {
 
 /* ============================ level building ============================ */
 function terrace(n, min, max, pmin, pmax){
-  const a=[];
-  let y = rndi(min,max);
+  const a=[], span = max-min, rest = min + span*0.45;   // long stretches stay low
+  const put = (v,len)=>{ v=clamp(Math.round(v),min,max); for(let i=0;i<len && a.length<n;i++) a.push(v); };
+  let y = rndi(rest,max);
   while(a.length<n){
     const r = Math.random();
-    if(r < 0.15){                                   // sharp spur or notch
-      const len = rndi(2,5);
-      const ny  = clamp(y + (Math.random()<0.5?-1:1)*rndi(55,135), min, max);
-      for(let i=0;i<len && a.length<n;i++) a.push(ny);
-      y = clamp(y + rndi(-16,16), min, max);
-    } else if(r < 0.34){                            // staircase
-      const steps = rndi(3,6), dir = Math.random()<0.5?-1:1, rise = rndi(12,32);
-      for(let s=0;s<steps && a.length<n;s++){
-        y = clamp(y + dir*rise, min, max);
-        const len = rndi(2,5);
-        for(let i=0;i<len && a.length<n;i++) a.push(y);
-      }
-    } else if(r < 0.62){                            // broken ledge
-      const len = rndi(3,8);
-      y = clamp(y + (Math.random()<0.5?-1:1)*rndi(28,80), min, max);
-      for(let i=0;i<len && a.length<n;i++) a.push(y);
-    } else {                                        // plateau
-      const len = rndi(pmin,pmax);
-      y = clamp(y + (Math.random()<0.5?-1:1)*rndi(14,52), min, max);
-      for(let i=0;i<len && a.length<n;i++) a.push(y);
+    if(r < 0.18){                                       // pinnacle: narrow and tall
+      put(rndi(min, min+span*0.35), rndi(2,5));
+      y = clamp(y + rndi(-24,24), rest, max);
+    } else if(r < 0.42){                                // ridge: climb, crest, descend
+      const steps = rndi(3,6), rise = rndi(24,58);
+      let cur = y;
+      for(let s=0;s<steps;s++){ cur = clamp(cur-rise, min, max); put(cur, rndi(2,4)); }
+      put(cur, rndi(2,6));                              // crest
+      for(let s=0;s<steps;s++){ cur = clamp(cur+rise, min, max); put(cur, rndi(2,4)); }
+      y = cur;
+    } else if(r < 0.58){                                // trench
+      put(max - rndi(0, span*0.12), rndi(3,7));
+      y = clamp(max - rndi(0, span*0.2), rest, max);
+    } else if(r < 0.78){                                // broken ledge
+      y = clamp(y + (Math.random()<0.5?-1:1)*rndi(30,90), min+span*0.18, max);
+      put(y, rndi(3,8));
+    } else {                                            // plateau on low ground
+      y = clamp(y + (Math.random()<0.5?-1:1)*rndi(14,52), rest, max);
+      put(y, rndi(pmin,pmax));
     }
   }
   return a;
@@ -184,6 +184,11 @@ Builder.prototype.section = function(id, name, nCols, o){
   const floor = terrace(nCols, o.fmin, o.fmax, o.pmin||7, o.pmax||16);
   const ceil  = (o.cmin===undefined) ? new Array(nCols).fill(0)
                                      : terrace(nCols, o.cmin, o.cmax, 7, 16);
+  // entering a roofed stretch from open water: ease the roof down like a cave mouth
+  if(o.cmin!==undefined && (start===0 || this.cols[start-1].c===0)){
+    const ramp = Math.min(34, nCols);
+    for(let i=0;i<ramp;i++) ceil[i] = Math.round(ceil[i] * (i/ramp)*(i/ramp));
+  }
   const gap = o.gap || 205;
   for(let i=0;i<nCols;i++){
     let c = ceil[i], f = floor[i];
@@ -226,7 +231,7 @@ function buildLevel1(loop){
   const armed = loop>0;                                 // later loops arm the shallows
 
   // 01 seabed approach
-  let s = b.section('01','SEABED APPROACH', 320, {fmin:290, fmax:482});
+  let s = b.section('01','SEABED APPROACH', 320, {fmin:158, fmax:488});
   for(let x=s.x0+700; x<s.x1-200; x+=rndi(300,460)){
     const r=Math.random();
     if(r<0.42){ b.spawn('drone', x, rnd(120,300), {amp:rnd(40,90)}); }
@@ -236,7 +241,7 @@ function buildLevel1(loop){
   if(armed) for(let x=s.x0+1200; x<s.x1-400; x+=900) b.spawn('gun', x, b.floorAt(x));
 
   // 02 saucer formation
-  s = b.section('02','SAUCER FORMATION', 250, {fmin:310, fmax:482, pmin:10, pmax:20});
+  s = b.section('02','SAUCER FORMATION', 250, {fmin:210, fmax:488, pmin:10, pmax:20});
   for(let grp=0; grp<3; grp++){
     const gx = s.x0 + 600 + grp*950;
     for(let i=0;i<5;i++)
@@ -272,7 +277,7 @@ function buildLevel2(loop){
   const b = new Builder();
 
   // 01 breakwater
-  let s = b.section('01','BREAKWATER', 300, {fmin:296, fmax:480});
+  let s = b.section('01','BREAKWATER', 300, {fmin:165, fmax:486});
   for(let x=s.x0+640; x<s.x1-260; x+=rndi(330,470)){
     const r=Math.random();
     if(r<0.45) b.spawn('gun', x, b.floorAt(x));
@@ -282,7 +287,7 @@ function buildLevel2(loop){
   for(let x=s.x0+300; x<s.x1; x+=rndi(420,700)) b.decos.push({t:'pylon', x, h:rndi(90,190)});
 
   // 02 patrol channel
-  s = b.section('02','PATROL CHANNEL', 280, {fmin:372, fmax:476, cmin:36, cmax:146, pmin:12, pmax:22});
+  s = b.section('02','PATROL CHANNEL', 280, {fmin:300, fmax:480, cmin:34, cmax:150, pmin:12, pmax:22});
   for(let x=s.x0+200; x<s.x1; x+=260) b.decos.push({t:'girder', x, y:b.ceilAt(x)});
   for(let x=s.x0+700; x<s.x1-300; x+=rndi(420,620)){
     b.spawn('patrol', x, rnd(150,320), {});
